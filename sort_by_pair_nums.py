@@ -9,6 +9,9 @@
 
 
 class Solver:
+    """
+    Класс подбора перестановок
+    """
 
     def __init__(self, s=None, do_reverse=False):
 
@@ -29,36 +32,36 @@ class Solver:
         :param nums_str: строка из 5-9 цифр без разделителей
         """
 
-        nums = [i for i in nums_str]
+        nums = list(nums_str)
 
-        for g1 in range(len(nums)-2):
-            for g2 in range(g1+2, len(nums)-1):
-                buf = nums[g1:g1+2]
-                nums[g1:g1+2] = nums[g2:g2+2]
-                nums[g2:g2+2] = buf
+        for g_1 in range(len(nums)-2):
+            for g_2 in range(g_1+2, len(nums)-1):
+                buf = nums[g_1:g_1+2]
+                nums[g_1:g_1+2] = nums[g_2:g_2+2]
+                nums[g_2:g_2+2] = buf
 
                 if ''.join(nums) not in self._used_codes:
                     self._used_codes.add(''.join(nums))
-                    yield ''.join(nums), (g1, g2)
-                nums = [i for i in nums_str]
+                    yield ''.join(nums), (g_1, g_2)
+                nums = list(nums_str)
 
-    def bfs(self, s, do_reverse=False):
+    def bfs(self, seq, do_reverse=False):
         """
-        Поиск в ширину. s - входящая последовательность, строка из 5-9 цифр без разделителей.
-        :param s: входящая последовательность, строка из 5-9 цифр без разделителей
+        Поиск в ширину.
+        :param seq: входящая последовательность, строка из 5-9 цифр без разделителей
         :param do_reverse: прямая или обратная сортировка
         :return: Возможность сортировки
         """
 
-        self._orig = ''.join(sorted(s, reverse=do_reverse))
+        self._orig = ''.join(sorted(seq, reverse=do_reverse))
         self.chain = [(self._orig, (0, 0))]
-        self.matrix = {s: None}
-        self._used_codes = set(s)
-        if self. _orig == s:
+        self.matrix = {seq: None}
+        self._used_codes = set(seq)
+        if self. _orig == seq:
             self.deep = 0
             return True
         i = 1
-        frontier = [s]
+        frontier = [seq]
         while frontier:
             next_ = []
             for u in frontier:
@@ -99,10 +102,10 @@ if __name__ == '__main__':
         REVERSE = True
 
     if len(sys.argv) > 1 and re.fullmatch('[0-9]{5,9}', sys.argv[1]):
-        inp = sys.argv[1]
+        INP = sys.argv[1]
     else:
         print("Use:")
         print(" >python transistive4.py XXXXXX [REVERSE]")
         sys.exit()
 
-    print(Solver(inp, do_reverse=REVERSE))
+    print(Solver(INP, do_reverse=REVERSE))
