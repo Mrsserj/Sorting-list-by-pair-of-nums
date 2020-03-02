@@ -8,13 +8,13 @@
 """
 
 
-class Solver(object):
+class Solver:
 
     def __init__(self, s=None, do_reverse=False):
 
         self.matrix = {}
         self.deep = 0
-        self._ORIG = ''
+        self._orig = ''
         self._used_codes = set()
         self.chain = []
 
@@ -50,11 +50,11 @@ class Solver(object):
         :return: Возможность сортировки
         """
 
-        self._ORIG = ''.join(sorted(s, reverse=do_reverse))
-        self.chain = [(self._ORIG, (0, 0))]
+        self._orig = ''.join(sorted(s, reverse=do_reverse))
+        self.chain = [(self._orig, (0, 0))]
         self.matrix = {s: None}
         self._used_codes = set(s)
-        if self. _ORIG == s:
+        if self. _orig == s:
             self.deep = 0
             return True
         i = 1
@@ -66,7 +66,7 @@ class Solver(object):
                     if v not in self.matrix:
                         self.matrix[v] = (u, t)
                         next_.append(v)
-                    if self._ORIG == v:
+                    if self._orig == v:
                         self.deep, self.check = i, True
                         return True
             frontier, i = next_, i+1
@@ -75,7 +75,7 @@ class Solver(object):
     def __str__(self):
         if not self.matrix:
             return 'Массив не найден.'
-        elif not self.check:
+        if not self.check:
             return 'Массив не сортируется :('
         for i in range(self.deep):
             self.chain.append(self.matrix[self.chain[-1][0]])
@@ -94,15 +94,15 @@ if __name__ == '__main__':
     import sys
     import re
 
-    reverse = False
-    if len(sys.argv) > 2 and sys.argv[2] == 'reverse':
-        reverse = True
+    REVERSE = False
+    if len(sys.argv) > 2 and sys.argv[2] == 'REVERSE':
+        REVERSE = True
 
     if len(sys.argv) > 1 and re.fullmatch('[0-9]{5,9}', sys.argv[1]):
         inp = sys.argv[1]
     else:
         print("Use:")
-        print(" >python transistive4.py XXXXXX [reverse]")
+        print(" >python transistive4.py XXXXXX [REVERSE]")
         sys.exit()
 
-    print(Solver(inp, do_reverse=reverse))
+    print(Solver(inp, do_reverse=REVERSE))
