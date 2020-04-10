@@ -1,5 +1,5 @@
 # Sorting-list-by-pair-of-nums
-Sorting nuber list by pair of nums
+Sorting number list by pair of nums
 
 Массив из 6 элементов, состоящий из уникальных цифр от 1 до 6 расположенных случайным образом  
 Т.е.:  
